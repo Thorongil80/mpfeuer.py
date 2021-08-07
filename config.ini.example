@@ -15,16 +15,12 @@ pass = kennwort
 
 [Abteilung1]
 send_g26 = 0
-to_g26 = abt.kommandant@abteilung1.de
-cc_g26 = kdt@feuerwehr1.de
+to = abt.kommandant@abteilung1.de
+cc = kdt@feuerwehr1.de
 send_fuehr = 1
-to_fuehr = abt.kommandant@abteilung1.de
-cc_fuehr = kdt@feuerwehr1.de
 
 [Abteilung2]
 send_g26 = 1
-to_g26 = abt.kommandant@abteilung2.de
-cc_g26 = kdt@feuerwehr2.de
+to = abt.kommandant@abteilung2.de
+cc = kdt@feuerwehr2.de
 send_fuehr = 1
-to_fuehr = abt.kommandant@abteilung2.de
-cc_fuehr = kdt@feuerwehr1.de

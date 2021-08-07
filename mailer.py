@@ -15,8 +15,8 @@ def send_mail_g26(abteilung, personen):
     print("DEBUG: ================= Sending..." + abteilung + "=================")
     print(personen)
 	
-    receiver_email = "thomas@herzogonline.net"
-    cc_email = ""
+    receiver_email = abteilungsconfig[abteilung]["to"].strip('"')
+    cc_email = abteilungsconfig[abteilung]["cc"].strip('"')
     recipients = [receiver_email] + [cc_email]
     password = config.mail_pass
     
@@ -85,8 +85,8 @@ def send_mail_fuehr(abteilung, personen):
     print("DEBUG: ================= Sending..." + abteilung + "=================")
     print(personen)
 	
-    receiver_email = "thomas@herzogonline.net"
-    cc_email = ""
+    receiver_email = abteilungsconfig[abteilung]["to"].strip('"')
+    cc_email = abteilungsconfig[abteilung]["cc"].strip('"')
     recipients = [receiver_email] + [cc_email]
     password = config.mail_pass
     
