@@ -1,0 +1,30 @@
+[database]
+db_path = "C:\MP-SOFT-4-U\MP-FEUER Netzdaten\V2021P\database\DATA55P.FDB"
+db_host = 127.0.0.1
+db_port = 3050
+db_char = UTF8
+db_user = SYSDBA
+db_pass = kennwort
+
+[mail]
+server = smtp.server.de
+port = 465
+user = sender@absender.de
+from = benutzername
+pass = kennwort
+
+[Abteilung1]
+send_g26 = 0
+to_g26 = abt.kommandant@abteilung1.de
+cc_g26 = kdt@feuerwehr1.de
+send_fuehr = 1
+to_fuehr = abt.kommandant@abteilung1.de
+cc_fuehr = kdt@feuerwehr1.de
+
+[Abteilung2]
+send_g26 = 1
+to_g26 = abt.kommandant@abteilung2.de
+cc_g26 = kdt@feuerwehr2.de
+send_fuehr = 1
+to_fuehr = abt.kommandant@abteilung2.de
+cc_fuehr = kdt@feuerwehr1.de
