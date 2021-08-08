@@ -104,7 +104,7 @@ def send_mail_fuehr(abteilung, personen):
 			<meta charset='utf-8'>
 		</head>
 		<body>
-		   <H2>Liste der Kameraden mit LKW F&uuml;hrerscheinen der Abteilung $Abteilung</H2>
+		   <H2>Liste der Kameraden mit LKW F&uuml;hrerscheinen der Abteilung""" + abteilung + """</H2>
             Dies ist eine automatisierte monatliche Mail des Feuerwehrservers, bei Fragen bitte an Thomas Herzog wenden<br><br>
             Die Liste enth&auml;lt alle Personen der Abteilung bei denen ein F&uuml;hrerschein mit 'C' in der Bezeichnung gefunden wurde.<br><br>
             Beachtet: C(E) und C1(E) m&uuml;ssen alle 5 Jahre verl&auml;ngert werden.<br>Bei C1(E) bis zum 18.01.2013 ausgestellt gilt dies erst ab dem 50. Geburtstag.<br>
