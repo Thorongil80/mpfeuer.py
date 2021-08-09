@@ -18,9 +18,11 @@ send_g26 = 0
 to = abt.kommandant@abteilung1.de
 cc = kdt@feuerwehr1.de
 send_fuehr = 1
+include_c1_drivers = 0
 
 [Abteilung2]
 send_g26 = 1
 to = abt.kommandant@abteilung2.de
 cc = kdt@feuerwehr2.de
 send_fuehr = 1
+include_c1_drivers = 1

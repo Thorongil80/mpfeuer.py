@@ -96,7 +96,11 @@ def send_mail_fuehr(abteilung, personen):
     message["To"] = receiver_email
     message["CC"] = cc_email
     
+	include_c1e = ""
 	
+	if abteilungsconfig[person["abteilung"]]["include_c1_drivers"] == "1":
+	  include_c1e = "<i>C1(E) wird aufgrund Fahrzeugbestand bei der Abteilung " + abteilung + " in dieser Auswertung berücksichtigt.</i><br><br>"
+			
     html = """
     <html>
 		<head>
@@ -108,9 +112,9 @@ def send_mail_fuehr(abteilung, personen):
             Dies ist eine automatisierte monatliche Mail des Feuerwehrservers, bei Fragen bitte an Thomas Herzog wenden<br><br>
             Die Liste enth&auml;lt alle Personen der Abteilung bei denen ein F&uuml;hrerschein mit 'C' in der Bezeichnung gefunden wurde.<br><br>
             Beachtet: C(E) und C1(E) m&uuml;ssen alle 5 Jahre verl&auml;ngert werden.<br>Bei C1(E) bis zum 18.01.2013 ausgestellt gilt dies erst ab dem 50. Geburtstag.<br>
-            <i>C1(E) wird aufgrund Fahrzeugbestand nur bei der Abteilung Stettfeld in dieser Auswertung berücksichtigt.</i><br><br>
-            Sobald der F&uuml;hrerschein gepr&uuml;ft wurde, so tragt bitte die Untersuchung/Pr&uuml;fung <b>'F&uuml;hrerschein-Ablaufcheck'</b> als <b>'bestanden'</b> und die n&auml;chste <b>entsprechend Ablaufdatum</b> in MP-Feuer ein.<br>
-            L&auml;sst ein Kamerad seinen LKW-F&uuml;hrerschein verfallen, so entfernt die F&uuml;hrerscheinklasse bitte in MP-Feuer.<br><br><br> 
+            """ + include_c1e + """
+            Sobald der F&uuml;hrerschein gepr&uuml;ft wurde, tragt die Untersuchung/Pr&uuml;fung <b>'F&uuml;hrerschein-Ablaufcheck'</b> als <b>'bestanden'</b> und die n&auml;chste <b>entsprechend Ablaufdatum</b> in MP-Feuer ein.<br>
+            L&auml;sst ein Kamerad seinen LKW-F&uuml;hrerschein verfallen, entfernt die F&uuml;hrerscheinklasse bitte in MP-Feuer.<br><br><br> 
 			<table style='text-align:left; font-family:Courier New, Courier;'>
 				<tr>
 					<th colspan = 2>Inhaber

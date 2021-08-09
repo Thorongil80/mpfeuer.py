@@ -45,10 +45,10 @@ for p in dbcon.persons_fuehr():
       person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
   
   if abteilungsconfig[person["abteilung"]]["send_fuehr"] == "1":
-    person["fuehrerschein"] = person["fuehrerschein"].replace("C1", "X")
-    person["fuehrerschein"] = person["fuehrerschein"].replace("c1", "X")
-    if "C" in person["fuehrerschein"] or (person["abteilung"] == "Stettfeld" and "X" in person["fuehrerschein"] ) :
-      person["fuehrerschein"] = person["fuehrerschein"].replace("X", "C1")
+    person["fuehrerschein"] = person["fuehrerschein"].replace("C1", "XX")
+    person["fuehrerschein"] = person["fuehrerschein"].replace("c1", "XX")
+    if "C" in person["fuehrerschein"] or (abteilungsconfig[person["abteilung"]]["include_c1_drivers"] == "1": and "XX" in person["fuehrerschein"] ) :
+      person["fuehrerschein"] = person["fuehrerschein"].replace("XX", "C1")
       personen[person["abteilung"]].append(person)
  
 print("DEBUG: ================= personen dict         ================= " )
