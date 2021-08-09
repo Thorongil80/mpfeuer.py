@@ -1,1 +1,1 @@
-python run.py > last_run.log
+python run_monthly_reports.py > last_run.log
