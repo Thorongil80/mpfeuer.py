@@ -1,1 +1,1 @@
-python run_monthly_reports.py > last_run.log
+"C:\Program Files\Python39\python" run_monthly_reports.py > last_run.log
