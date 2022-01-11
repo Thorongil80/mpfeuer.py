@@ -1,0 +1,1 @@
+"C:\Program Files\Python39\python" rewrite_dateien.py

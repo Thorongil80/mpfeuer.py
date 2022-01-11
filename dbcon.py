@@ -39,6 +39,14 @@ def persons_fuehr():
   persons = cur.fetchall()
   disconnect(conn)
   return persons
+  
+def dateien_stettfeld():
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("SELECT p.PER_ID, PER_DOKU_DATEI FROM per_doku as p") # inner join per_stamm as s on s.PER_ID = p.PER_ID") # inner join abt_stamm as a on s.PER_ABT_INDEX = a.ABT_ID") # where a.ABT_NAME_LANG = 'Stettfeld'")
+  dateien = cur.fetchall()
+  disconnect(conn)
+  return dateien
 
 def pruefokdat_g26(personid):
   conn = connect()

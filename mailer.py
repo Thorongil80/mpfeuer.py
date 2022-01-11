@@ -15,9 +15,9 @@ def send_mail_g26(abteilung, personen):
     print("DEBUG: ================= Sending..." + abteilung + "=================")
     print(personen)
     
-    receiver_email = abteilungsconfig[abteilung]["to"].strip('"')
-    cc_email = abteilungsconfig[abteilung]["cc"].strip('"')
-    recipients = [receiver_email] + [cc_email]
+    receiver_email = abteilungsconfig[abteilung]["to"].strip('"').strip(" ")
+    cc_email = abteilungsconfig[abteilung]["cc"].strip('"').strip(" ")
+    recipients = receiver_email.split(",") + cc_email.split(",")
     password = config.mail_pass
     
     message = MIMEMultipart("alternative")
@@ -85,9 +85,9 @@ def send_mail_fuehr(abteilung, personen):
     print("DEBUG: ================= Sending..." + abteilung + "=================")
     print(personen)
     
-    receiver_email = abteilungsconfig[abteilung]["to"].strip('"')
-    cc_email = abteilungsconfig[abteilung]["cc"].strip('"')
-    recipients = [receiver_email] + [cc_email]
+    receiver_email = abteilungsconfig[abteilung]["to"].strip('"').strip(" ")
+    cc_email = abteilungsconfig[abteilung]["cc"].strip('"').strip(" ")
+    recipients = receiver_email.split(",") + cc_email.split(",")
     password = config.mail_pass
     
     message = MIMEMultipart("alternative")
