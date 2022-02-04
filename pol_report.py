@@ -7,21 +7,21 @@ from dateutil.relativedelta import *
 personen = dbcon.personen()
 abteilungsconfig = dbcon.abteilungsconfig()
 
-for p in dbcon.persons_fuehr():
+
+for p in dbcon.persons_pol():
   person = {}
   person["id"] = str(p[0])
   person["abteilung"] = str(p[1])
   person["anrede"] = str(p[2])
   person["name"] = str(p[3])
   person["vorname"] = p[4]
-  person["fuehrerschein"] = p[5]
   person["pruefokdat"] = "N/A"
   person["pruefnextdat"] = "N/A"
   person["ungueltig"] = ""
-  pruefokdat = dbcon.pruefokdat_fuehr(p[0])
+  pruefokdat = dbcon.pruefokdat_pol(p[0])
   if isinstance(pruefokdat[0], datetime.date):
     person["pruefokdat"] = pruefokdat[0].isoformat() 
-    pruefnextdat = dbcon.pruefnextdat_fuehr(person["id"], pruefokdat)
+    pruefnextdat = dbcon.pruefnextdat_pol(person["id"], pruefokdat)
     if isinstance(pruefnextdat[0], datetime.date):
       person["pruefnextdat"] = pruefnextdat[0].isoformat()
       today = datetime.date.today()
@@ -29,12 +29,12 @@ for p in dbcon.persons_fuehr():
         person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
       else:
         if pruefnextdat[0] < today+relativedelta(months=3) :
-          person["ungueltig"] = "<font color=orange>kontaktieren!</font>"
+          person["ungueltig"] = "<font color=orange>einholen!</font>"
     else:
       person["pruefnextdat"] = "N/A"  
       person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
   else :
-    pruefnextdat = dbcon.pruefnextdat_fuehr(person["id"])
+    pruefnextdat = dbcon.pruefnextdat_pol(person["id"])
     if isinstance(pruefnextdat[0], datetime.date):
       person["pruefnextdat"] = pruefnextdat[0].isoformat()
       today = datetime.date.today()
@@ -42,17 +42,12 @@ for p in dbcon.persons_fuehr():
         person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
       else:
         if pruefnextdat[0] < today+relativedelta(months=3) :
-          person["ungueltig"] = "<font color=orange>kontaktieren!</font>"
+          person["ungueltig"] = "<font color=orange>einholen!</font>"
     else :
-      person["pruefnextdat"] = "N/A"  
+      person["pruefnextdat"] = "N/A"
       person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
-  
-  if abteilungsconfig[person["abteilung"]]["send_fuehr"] == "1":
-    person["fuehrerschein"] = person["fuehrerschein"].replace("C1", "XX")
-    person["fuehrerschein"] = person["fuehrerschein"].replace("c1", "XX")
-    if "C" in person["fuehrerschein"] or (abteilungsconfig[person["abteilung"]]["include_c1_drivers"] == "1" and "XX" in person["fuehrerschein"] ) :
-      person["fuehrerschein"] = person["fuehrerschein"].replace("XX", "C1")
-      personen[person["abteilung"]].append(person)
+  if abteilungsconfig[person["abteilung"]]["send_pol"] == "1":
+    personen[person["abteilung"]].append(person)
  
 print("DEBUG: ================= personen dict         ================= " )
 print(personen)
@@ -61,4 +56,4 @@ print(abteilungsconfig)
 
 
 for k in personen.keys():
-  mailer.send_mail_fuehr(k, personen[k])
+  mailer.send_mail_pol(k, personen[k])

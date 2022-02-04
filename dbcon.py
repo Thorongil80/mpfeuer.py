@@ -39,7 +39,15 @@ def persons_fuehr():
   persons = cur.fetchall()
   disconnect(conn)
   return persons
-  
+
+def persons_pol():
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("SELECT DISTINCT p.PER_ID, a.ABT_NAME_LANG, p.PER_ANREDE, p.PER_NACHNAME, p.PER_VORNAME FROM per_stamm as p inner join abt_stamm as a on p.PER_ABT_INDEX = a.ABT_ID inner join per_pruef as pr on p.PER_ID = pr.PER_INDEX where PER_PRUEF_LANG like '%POL%' and PER_ARCHIV_DAT is null order by PER_NACHNAME, PER_VORNAME")
+  persons = cur.fetchall()
+  disconnect(conn)
+  return persons
+
 def dateien_stettfeld():
   conn = connect()
   cur = conn.cursor()
@@ -70,6 +78,17 @@ def pruefokdat_fuehr(personid):
   disconnect(conn)
   return pruefokdat
   
+def pruefokdat_pol(personid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("SELECT max(PER_PRUEF_DAT) from PER_PRUEF where per_index = '" + personid + "' and per_pruef_ok = 1 and per_pruef_lang like '%POL%'");
+  pruef_ok = cur.fetchall()
+  disconnect(conn) 
+  if pruef_ok :
+    pruefokdat = pruef_ok[0]
+  disconnect(conn)
+  return pruefokdat
+  
 def pruefnextdat_g26(personid, pruefokdat=None):
   conn = connect()
   cur = conn.cursor()
@@ -77,6 +96,20 @@ def pruefnextdat_g26(personid, pruefokdat=None):
     cur.execute("SELECT min(PER_PRUEF_DAT) from PER_PRUEF where per_index = '" + personid + "' and per_pruef_ok = 0 and per_pruef_dat > '" + pruefokdat[0].isoformat() + "'  and per_pruef_lang like '%G26%'");
   else :
     cur.execute("SELECT min(PER_PRUEF_DAT) from PER_PRUEF where per_index = '" + personid + "' and per_pruef_ok = 0 and per_pruef_lang like '%G26%'");    
+  pruef_next = cur.fetchall()
+  disconnect(conn) 
+  if pruef_next :
+    pruefnextdat= pruef_next[0]
+  disconnect(conn)
+  return pruefnextdat
+
+def pruefnextdat_pol(personid, pruefokdat=None):
+  conn = connect()
+  cur = conn.cursor()
+  if isinstance(pruefokdat, datetime.date) :
+    cur.execute("SELECT min(PER_PRUEF_DAT) from PER_PRUEF where per_index = '" + personid + "' and per_pruef_ok = 0 and per_pruef_dat > '" + pruefokdat[0].isoformat() + "'  and per_pruef_lang like '%POL%'");
+  else :
+    cur.execute("SELECT min(PER_PRUEF_DAT) from PER_PRUEF where per_index = '" + personid + "' and per_pruef_ok = 0 and per_pruef_lang like '%POL%'");    
   pruef_next = cur.fetchall()
   disconnect(conn) 
   if pruef_next :
@@ -114,4 +147,12 @@ def personen():
   abt = abteilungen()
   for a in abt:
     map[a[1]] = []
+  return map
+
+def zahlen():
+  zahlen = { 'anzahl':0 , 'ungueltig':0 }
+  map = {}
+  abt = abteilungen()
+  for a in abt:
+    map[a[1]] = zahlen
   return map

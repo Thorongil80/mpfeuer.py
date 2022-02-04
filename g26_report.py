@@ -7,6 +7,7 @@ from dateutil.relativedelta import *
 personen = dbcon.personen()
 abteilungsconfig = dbcon.abteilungsconfig()
 
+
 for p in dbcon.persons_g26():
   person = {}
   person["id"] = str(p[0])
@@ -29,6 +30,9 @@ for p in dbcon.persons_g26():
       else:
         if pruefnextdat[0] < today+relativedelta(months=3) :
           person["ungueltig"] = "<font color=orange>einberufen!</font>"
+    else:
+      person["pruefnextdat"] = "N/A"  
+      person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
   else :
     pruefnextdat = dbcon.pruefnextdat_g26(person["id"])
     if isinstance(pruefnextdat[0], datetime.date):
@@ -36,16 +40,17 @@ for p in dbcon.persons_g26():
       today = datetime.date.today()
       if pruefnextdat[0] < today :
         person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
+        zahlen[person["abteilung"]]['ungueltig'] = zahlen[person["abteilung"]]['ungueltig'] + 1
       else:
         if pruefnextdat[0] < today+relativedelta(months=3) :
           person["ungueltig"] = "<font color=orange>einberufen!</font>"
     else :
       person["pruefnextdat"] = "N/A"  
       person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
-  
   if abteilungsconfig[person["abteilung"]]["send_g26"] == "1":
     personen[person["abteilung"]].append(person)
- 
+
+     
 print("DEBUG: ================= personen dict         ================= " )
 print(personen)
 print("DEBUG: ================= abteilungsconfig dict ================= ")

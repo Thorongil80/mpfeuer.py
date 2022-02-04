@@ -52,8 +52,8 @@ def send_mail_g26(abteilung, personen):
     for p in personen:
       html = html + "<tr><td colspan=2>" + p["name"] + "&nbsp;" + p["vorname"] + "<td>" + p["pruefokdat"] + "<td>" + p["pruefnextdat"] + "<td>" + p["ungueltig"] + "</tr>\n"
     
-    html = html + """\
-            </table>
+
+    html = html + "</table>" + """\
         </body>
     </html>
     """
@@ -129,6 +129,68 @@ def send_mail_fuehr(abteilung, personen):
     
     html = html + """\
             </table>
+        </body>
+    </html>
+    """
+    
+    # Create the plain-text and HTML version of your message
+    text = html2text.html2text(html)
+
+    
+    # Turn these into plain/html MIMEText objects
+    part1 = MIMEText(text, "plain")
+    part2 = MIMEText(html, "html")
+    
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part1)
+    message.attach(part2)
+    
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(config.mail_server, int(config.mail_port), context=context) as server:
+        server.login(config.mail_user, config.mail_pass)
+        server.sendmail(
+            config.mail_from, recipients, message.as_string()
+        )
+
+def send_mail_pol(abteilung, personen):
+  if personen:
+    print("DEBUG: ================= Sending..." + abteilung + "=================")
+    print(personen)
+    
+    receiver_email = abteilungsconfig[abteilung]["to"].strip('"').strip(" ")
+    cc_email = abteilungsconfig[abteilung]["cc"].strip('"').strip(" ")
+    recipients = receiver_email.split(",") + cc_email.split(",")
+    password = config.mail_pass
+    
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "Status pol. Fuehrungszeugnisse Abteilung " + abteilung + " - " + datetime.date.today().isoformat()
+    message["From"] = config.mail_from
+    message["To"] = receiver_email
+    message["CC"] = cc_email
+    
+    
+    html = """
+    <html>
+        <head>
+            <style>td,th {padding:5px 10px 5px 10px;}</style>
+            <meta charset='utf-8'>
+        </head>
+        <body>
+            <H2>Liste der Kamerad*Innen der Abteilung """ + abteilung + """ mit hinterlegtem polizeilichem F&uuml;hrungszeugnis</H2>
+            Pflege der F&uuml;hrungszeugnisse erfolgt durch das Ordnungsamt.\
+            <table style='text-align:left; font-family:Courier New, Courier;'>
+                <tr>
+                    <th colspan = 2>Feuerwehrkamerad*in<th>Zuletzt vorgelegt
+                    <th>N&auml;chste Vorlage
+                    <th>
+                </tr>"""
+    
+    for p in personen:
+      html = html + "<tr><td colspan=2>" + p["name"] + "&nbsp;" + p["vorname"] + "<td>" + p["pruefokdat"] + "<td>" + p["pruefnextdat"] + "<td>" + p["ungueltig"] + "</tr>\n"
+
+    html = html + "</table>" + """\
         </body>
     </html>
     """
