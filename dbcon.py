@@ -35,7 +35,7 @@ def persons_g26():
 def persons_fuehr():
   conn = connect()
   cur = conn.cursor()
-  cur.execute("SELECT PER_ID, ABT_NAME_LANG, PER_ANREDE, PER_NACHNAME, PER_VORNAME, PER_FUEHRERSCHEIN FROM per_stamm as p inner join abt_stamm as a on p.PER_ABT_INDEX = a.ABT_ID where PER_FUEHRERSCHEIN is not null and PER_ARCHIV_DAT is null order by PER_NACHNAME, PER_VORNAME")
+  cur.execute("SELECT PER_ID, ABT_NAME_LANG, PER_ANREDE, PER_NACHNAME, PER_VORNAME, PER_FUEHRERSCHEIN, PER_GEB_DAT FROM per_stamm as p inner join abt_stamm as a on p.PER_ABT_INDEX = a.ABT_ID where PER_FUEHRERSCHEIN is not null and PER_ARCHIV_DAT is null order by PER_NACHNAME, PER_VORNAME")
   persons = cur.fetchall()
   disconnect(conn)
   return persons

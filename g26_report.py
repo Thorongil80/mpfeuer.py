@@ -40,7 +40,7 @@ for p in dbcon.persons_g26():
       today = datetime.date.today()
       if pruefnextdat[0] < today :
         person["ungueltig"] = "<font color=red>ung&uuml;ltig</font>"
-        zahlen[person["abteilung"]]['ungueltig'] = zahlen[person["abteilung"]]['ungueltig'] + 1
+        #zahlen[person["abteilung"]]['ungueltig'] = zahlen[person["abteilung"]]['ungueltig'] + 1
       else:
         if pruefnextdat[0] < today+relativedelta(months=3) :
           person["ungueltig"] = "<font color=orange>einberufen!</font>"
